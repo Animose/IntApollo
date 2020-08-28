@@ -1,7 +1,7 @@
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 const { createStore } = require('./utils');
-
+require('dotenv').config()
 const resolvers = require('./resolvers');
 
 const LaunchAPI = require('./datasources/launch');
@@ -28,9 +28,16 @@ const server = new ApolloServer({
   dataSources: () => ({
     launchAPI: new LaunchAPI(),
     userAPI: new UserAPI({ store })
-  })
+  }),
+  engine: {
+    reportSchema: true
+  }
 });
+
 
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
+
+
+
 });
